@@ -6,23 +6,14 @@ using System.Threading.Tasks;
 
 namespace RPG_Game_Base
 {
-    internal class Monsters : IGlobalCharacter
+    internal class Monsters : GeneralCharacter
     {
-        public string Name { get; set; }    
-        public double Health { get; set; }
-        public double Attack { get; set; }
-        public int Gold { get; set; }
-        public int Experience { get; set; }
 
-        internal Monsters(string name, double health, double attack, int gold, int experience)
+        internal Monsters(string name, int health, int attack, int gold, int experience) : base (name, health, attack,  gold,  experience)
         {
-            Name = name;
-            Health = health;
-            Attack = attack;
-            Gold = gold;
-            Experience = experience;
-
+        
         }
+       
 
         static string[] monsters = {
             "Тенекрылый Разрушитель",
@@ -44,23 +35,47 @@ namespace RPG_Game_Base
             "Древний Жнец",
             "Стальной Пасть",
             "Чумной Костолом",
-            "Лунный Оборотень"};
+            "Лунный Оборотень"};     
 
-        public static Monsters CreateRandomMonster()
+        public static List <Monsters> UpgradeMonster(Player player)
         {
             Random random = new Random();
-            string randomName = monsters[random.Next(monsters.Length)];
-            double health = random.Next(40, 120);
-            double attack = random.Next(5, 15);
-            int gold = random.Next(5, 20);
-            int experience = random.Next(1, 5);
+            List <Monsters> upgradeMonsters = new List<Monsters>();
 
-            return new Monsters(randomName, health, attack, gold, experience);
+            foreach (string monster in monsters)
+            {
+                int health = random.Next(player.Health/2, player.Health + 20);
+                int attack = random.Next(player.Attack/2, player.Attack + 5);
+                int gold = random.Next(5, 20);
+                int experience = random.Next(10, 30);
+                Monsters newMonster = new Monsters(monster, health, attack, gold, experience);
+                upgradeMonsters.Add(newMonster);
+            }
+
+            return upgradeMonsters;
+            
+        }
+        public static List<Monsters> GetRandomMonster(List<Monsters> upgradeMonsters)
+        {
+            if (upgradeMonsters == null || upgradeMonsters.Count == 0)
+            {
+                throw new InvalidOperationException("Список монстров пуст. Невозможно выбрать случайного монстра.");
+            }
+
+            List<Monsters> selectedMonsters = new List<Monsters>();
+            Random random = new Random();
+            List<Monsters> tempList = new List<Monsters>(upgradeMonsters); // Копируем список, чтобы удалять выбранных
+
+            for (int i = 0; i < 5; i++)
+            {
+                int randomIndex = random.Next(tempList.Count);
+                selectedMonsters.Add(tempList[randomIndex]); // Добавляем выбранного монстра
+                tempList.RemoveAt(randomIndex);             // Удаляем выбранного монстра из временного списка
+            }
+
+            return selectedMonsters;//возвращаем список с пяти монстров
         }
 
-
-
-
     }
-    }
+}
 
