@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,6 +12,7 @@ namespace RPG_Game_Base
 
         internal Monsters(string name, int health, int attack, int gold, int experience) : base (name, health, attack,  gold,  experience)
         {
+           
         
         }
        
@@ -66,14 +68,43 @@ namespace RPG_Game_Base
             Random random = new Random();
             List<Monsters> tempList = new List<Monsters>(upgradeMonsters); // Копируем список, чтобы удалять выбранных
 
-            for (int i = 0; i < 5; i++)
+            if (upgradeMonsters.Count > 4)
             {
-                int randomIndex = random.Next(tempList.Count);
-                selectedMonsters.Add(tempList[randomIndex]); // Добавляем выбранного монстра
-                tempList.RemoveAt(randomIndex);             // Удаляем выбранного монстра из временного списка
+                for (int i = 0; i < 5; i++)
+                {
+                    int randomIndex = random.Next(tempList.Count);
+                    selectedMonsters.Add(tempList[randomIndex]); // Добавляем выбранного монстра
+                    tempList.RemoveAt(randomIndex);             // Удаляем выбранного монстра из временного списка
+
+                }
+                return selectedMonsters;//возвращаем список с пяти монстров
+            }
+            else
+            {
+                for (int i = 0; i < upgradeMonsters.Count; i++)
+                {
+                    int randomIndex = random.Next(tempList.Count);
+                    selectedMonsters.Add(tempList[randomIndex]); // Добавляем выбранного монстра
+                    tempList.RemoveAt(randomIndex);             // Удаляем выбранного монстра из временного списка
+                }
+                return selectedMonsters;//возвращаем список с оставшихся монстров 
             }
 
-            return selectedMonsters;//возвращаем список с пяти монстров
+        }
+
+        public static void RemoveMonster(List<Monsters> upgradeMonsters, Guid chosenMonster)
+        {
+            var monsterToRemove = upgradeMonsters.FirstOrDefault(upgradeMonsters => upgradeMonsters.CharacterId == chosenMonster);
+            
+            if (monsterToRemove != null)
+            {
+               upgradeMonsters.Remove(monsterToRemove);
+            }
+            else
+            {
+                Console.WriteLine("Монстр не найден.");
+            }
+
         }
 
     }

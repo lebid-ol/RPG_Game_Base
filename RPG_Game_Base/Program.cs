@@ -44,7 +44,9 @@ public static class Program
                 case "1":
                     // Начать бой с монстром
                     List<Monsters> selectedMonsters = Monsters.GetRandomMonster(upgradeMonsters);
-                    Battle.FightMonster(player, selectedMonsters);
+                    Monsters chosenMonster = Battle.ChooseMonsterForBattle(selectedMonsters);
+                    Battle.FightMonster(player, chosenMonster);
+                    Monsters.RemoveMonster(upgradeMonsters, chosenMonster.CharacterId);
                     break;
                 case "2":
                     // Поход в магазин

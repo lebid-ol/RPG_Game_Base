@@ -8,6 +8,7 @@ namespace RPG_Game_Base
 {
     public abstract class GeneralCharacter
     {
+        public Guid CharacterId { get; } = Guid.NewGuid();
         public string Name { get; set; }
         public int Health { get; set; }
         public int Attack { get; set; }

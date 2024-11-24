@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -8,7 +9,8 @@ namespace RPG_Game_Base
 {
     internal class Battle
     {
-        public static void FightMonster(Player player, List<Monsters> selectedMonsters)
+
+        public static Monsters ChooseMonsterForBattle(List<Monsters> selectedMonsters)
         {
 
             Console.WriteLine("Выберите из списка монстра, с которым желаете сразиться: ");
@@ -33,6 +35,12 @@ namespace RPG_Game_Base
 
             Monsters chosenMonster = selectedMonsters[choice - 1];
             Console.WriteLine($"Вы выбрали монстра: {chosenMonster.Name}");
+            return chosenMonster;
+        }
+
+            public static Guid FightMonster(Player player, Monsters chosenMonster)
+        {
+                      
             Console.WriteLine("Битва начинается!");
 
             while (chosenMonster.Health > 0 && player.Health > 0)
@@ -68,6 +76,7 @@ namespace RPG_Game_Base
 
             Console.Clear();
             Console.WriteLine("Вы сразились с монстром!");
+            return chosenMonster.CharacterId;
         }
     }
 }
