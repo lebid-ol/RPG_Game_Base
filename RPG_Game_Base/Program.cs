@@ -6,6 +6,7 @@ namespace RPG_Game_Base;
 
 public static class Program
 {
+    public static List<T> listOfRemovedMonsters = new List<T>();
     static void Main()
     {
         Console.OutputEncoding = Encoding.UTF8;
@@ -24,9 +25,9 @@ public static class Program
         // Создаем игрока
         Player player = new Player(nameOfHero, 100, 10, 0, 0, 20, 1);
 
+        int level = 1;
+
         List <Monsters> upgradeMonsters = Monsters.UpgradeMonster(player);
-
-
 
         while (true)
         {
@@ -47,6 +48,7 @@ public static class Program
                     Monsters chosenMonster = Battle.ChooseMonsterForBattle(selectedMonsters);
                     Battle.FightMonster(player, chosenMonster);
                     Monsters.RemoveMonster(upgradeMonsters, chosenMonster.CharacterId);
+                    Levels.NextLevel(player, upgradeMonsters, listOfRemovedMonsters);
                     break;
                 case "2":
                     // Поход в магазин
@@ -79,4 +81,8 @@ public static class Program
         // Здесь вы можете отобразить инвентарь игрока, его текущее здоровье, атаку, золото и другие параметры.
         Console.WriteLine("Инвентарь игрока:");
     }
+}
+
+public class T
+{
 }

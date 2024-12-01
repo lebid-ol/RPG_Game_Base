@@ -92,18 +92,23 @@ namespace RPG_Game_Base
 
         }
 
-        public static void RemoveMonster(List<Monsters> upgradeMonsters, Guid chosenMonster)
+        public static (List<Monsters> updatedMonsters, List<Monsters> removedMonsters) RemoveMonster(List<Monsters> upgradeMonsters, Guid chosenMonster)
         {
+
             var monsterToRemove = upgradeMonsters.FirstOrDefault(upgradeMonsters => upgradeMonsters.CharacterId == chosenMonster);
             
             if (monsterToRemove != null)
             {
                upgradeMonsters.Remove(monsterToRemove);
+               listOfRemovedMonsters.Add(monsterToRemove);
+
             }
             else
             {
                 Console.WriteLine("Монстр не найден.");
             }
+
+            return (upgradeMonsters, listOfRemovedMonsters);
 
         }
 
