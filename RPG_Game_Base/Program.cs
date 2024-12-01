@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Collections.Generic;
+using System.Text;
 using System.Threading;
 
 namespace RPG_Game_Base;
@@ -23,7 +24,9 @@ public static class Program
         // Создаем игрока
         Player player = new Player(nameOfHero, 100, 10, 0, 0, 20, 1);
 
-       
+        List <Monsters> upgradeMonsters = Monsters.UpgradeMonster(player);
+
+
 
         while (true)
         {
@@ -40,7 +43,10 @@ public static class Program
             {
                 case "1":
                     // Начать бой с монстром
-                    FightMonster(player);
+                    List<Monsters> selectedMonsters = Monsters.GetRandomMonster(upgradeMonsters);
+                    Monsters chosenMonster = Battle.ChooseMonsterForBattle(selectedMonsters);
+                    Battle.FightMonster(player, chosenMonster);
+                    Monsters.RemoveMonster(upgradeMonsters, chosenMonster.CharacterId);
                     break;
                 case "2":
                     // Поход в магазин
@@ -60,79 +66,6 @@ public static class Program
                     break;
             }
         }
-    }
-
-    static void FightMonster(Player player)
-    {
-        Monsters monsterOne = Monsters.CreateRandomMonster();
-        Monsters monsterSecond = Monsters.CreateRandomMonster();
-        Monsters monsterThird = Monsters.CreateRandomMonster();
-        Monsters monsterFourth = Monsters.CreateRandomMonster();
-        Monsters monsterFifth = Monsters.CreateRandomMonster();
-
-        Console.WriteLine("Выберите из списка монстра, с которым желаете сразиться: ");
-        Console.WriteLine("1. " + monsterOne.Name);
-        Console.WriteLine("2. " + monsterSecond.Name);
-        Console.WriteLine("3. " + monsterThird.Name);
-        Console.WriteLine("4. " + monsterFourth.Name);
-        Console.WriteLine("5. " + monsterFifth.Name);
-        Console.Write("Ваш выбор: ");
-        string? choiceMonster = Console.ReadLine();
-
-        switch (choiceMonster)
-        {
-            case "1":
-                Console.WriteLine("Бой начался!");
-                while (monsterOne.Health > 0 && player.Health > 0)
-                {
-
-                    Console.WriteLine($"{player.Name} наносит урон {player.Attack} по {monsterOne.Name}.");
-                    monsterOne.Health -= player.Attack;
-                    Thread.Sleep(1000);
-
-                    // Атака игрока
-                    if (monsterOne.Health <= 0)
-                    {
-                        Console.WriteLine($"{monsterOne.Name} побежден! Вы получаете {monsterOne.Gold} золота и {monsterOne.Experience} опыта.");
-                        player.Gold += monsterOne.Gold;
-                        player.Experience += monsterOne.Experience;
-                        Thread.Sleep(1000);
-                        break;
-                    }
-
-                    // Атака монстра
-                    Console.WriteLine($"{monsterOne.Name} атакует и наносит {monsterOne.Attack} урона {player.Name}.");
-                    player.Health -= monsterOne.Attack;
-                    Thread.Sleep(1000);
-
-                    if (player.Health <= 0)
-                    {
-                        Console.WriteLine($"{player.Name} пал в бою.");
-                        Thread.Sleep(1000);
-                        break;
-                    }
-                }
-
-                Console.Clear();
-                Console.WriteLine("Вы сразились с монстром!");
-                break;
-            case "2":
-                
-                break;
-            case "3":
-                
-                break;
-            case "4":
-                
-                break;
-            case "5":
-
-                break;
-            default:
-                Console.WriteLine("Выберите монстра из списка.");
-                break;
-        }
-
     }
 
     static void VisitShop(Player player)
