@@ -6,7 +6,7 @@ namespace RPG_Game_Base;
 
 public static class Program
 {
-    public static List<T> listOfRemovedMonsters = new List<T>();
+    public static List<Monsters> listOfRemovedMonsters = new List<Monsters>();
     static void Main()
     {
         Console.OutputEncoding = Encoding.UTF8;
@@ -24,6 +24,10 @@ public static class Program
 
         // Создаем игрока
         Player player = new Player(nameOfHero, 100, 10, 0, 0, 20, 1);
+
+        Item sword = new Item("Меч", 50, "Оружие", damage: 15); // Меч с уроном 15
+        Item shield = new Item("Щит", 40, "Броня", armor: 10); // Щит с защитой 10
+        Item potion = new Item("Лечебное зелье", 20, "Зелье", healthRestore: 25); // Зелье, восстанавливающее 25 здоровья
 
         int level = 1;
 
@@ -56,7 +60,12 @@ public static class Program
                     break;
                 case "3":
                     // Отобразить инвентарь игрока
-                    DisplayInventory(player);
+                    Console.WriteLine("Информация об инвентаре:");
+                    sword.DisplayInventory();
+                    Console.WriteLine();
+                    shield.DisplayInventory();
+                    Console.WriteLine();
+                    potion.DisplayInventory();
                     break;
                 case "4":
                     // Выход из игры

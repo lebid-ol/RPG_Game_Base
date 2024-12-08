@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace RPG_Game_Base
 {
-    internal class Monsters : GeneralCharacter
+    public class Monsters : GeneralCharacter
     {
 
-        internal Monsters(string name, int health, int attack, int gold, int experience) : base (name, health, attack,  gold,  experience)
+        public Monsters(string name, int health, int attack, int gold, int experience) : base (name, health, attack,  gold,  experience)
         {
            
         
@@ -100,7 +100,7 @@ namespace RPG_Game_Base
             if (monsterToRemove != null)
             {
                upgradeMonsters.Remove(monsterToRemove);
-               listOfRemovedMonsters.Add(monsterToRemove);
+               Program.listOfRemovedMonsters.Add(monsterToRemove);
 
             }
             else
@@ -108,7 +108,7 @@ namespace RPG_Game_Base
                 Console.WriteLine("Монстр не найден.");
             }
 
-            return (upgradeMonsters, listOfRemovedMonsters);
+            return (upgradeMonsters, Program.listOfRemovedMonsters);
 
         }
 
