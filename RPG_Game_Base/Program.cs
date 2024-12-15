@@ -6,6 +6,7 @@ namespace RPG_Game_Base;
 
 public static class Program
 {
+    public static List<Monsters> listOfRemovedMonsters = new List<Monsters>();
     static void Main()
     {
         Console.OutputEncoding = Encoding.UTF8;
@@ -24,9 +25,20 @@ public static class Program
         // Создаем игрока
         Player player = new Player(nameOfHero, 100, 10, 0, 0, 20, 1);
 
+        //инвентарь игрока
+        Item sword = new Item("Меч", 50, "Оружие", damage: 15); // Меч с уроном 15
+        Item shield = new Item("Щит", 40, "Броня", armor: 10); // Щит с защитой 10
+        Item potion = new Item("Лечебное зелье", 20, "Зелье", healthRestore: 25); // Зелье, восстанавливающее 25 здоровья
+
+        //инвентарь в магазине
+         Item swordShop = new Item("Меч рыцаря", 100, "Оружие", damage: 30); // Меч с уроном 30
+         Item shieldShop = new Item("Щит героя", 100, "Броня", armor: 25); // Щит с защитой 25
+         Item potionShop = new Item("Зелье исцеления", 40, "Зелье", healthRestore: 70); // Зелье, восстанавливающее 70 здоровья
+         Item axeShop = new Item("Боевой топор", 150, "Оружие", damage: 50); // Топор с уроном 50
+
+    int level = 1;
+
         List <Monsters> upgradeMonsters = Monsters.UpgradeMonster(player);
-
-
 
         while (true)
         {
@@ -47,14 +59,30 @@ public static class Program
                     Monsters chosenMonster = Battle.ChooseMonsterForBattle(selectedMonsters);
                     Battle.FightMonster(player, chosenMonster);
                     Monsters.RemoveMonster(upgradeMonsters, chosenMonster.CharacterId);
+                    Levels.NextLevel(player, upgradeMonsters, listOfRemovedMonsters);
                     break;
                 case "2":
                     // Поход в магазин
-                    VisitShop(player);
+                    Console.WriteLine("Добро пожаловать в магазин! Доступные товары:");
+                    Console.Write("1. ");
+                    swordShop.DisplayInventory();
+                    Console.Write("2. ");
+                    shieldShop.DisplayInventory();
+                    Console.Write("3. ");
+                    potionShop.DisplayInventory();
+                    Console.Write("4. ");
+                    axeShop.DisplayInventory();
+                    Console.WriteLine();
+                    Console.WriteLine("Выберите инвентарь для покупки:");
                     break;
                 case "3":
                     // Отобразить инвентарь игрока
-                    DisplayInventory(player);
+                    Console.WriteLine("Информация об инвентаре:");
+                    sword.DisplayInventory();
+                    Console.WriteLine();
+                    shield.DisplayInventory();
+                    Console.WriteLine();
+                    potion.DisplayInventory();
                     break;
                 case "4":
                     // Выход из игры
@@ -68,15 +96,4 @@ public static class Program
         }
     }
 
-    static void VisitShop(Player player)
-    {
-        // Здесь вы можете реализовать магазин, где игрок может покупать предметы, оружие и броню.
-        Console.WriteLine("Добро пожаловать в магазин!");
-    }
-
-    static void DisplayInventory(Player player)
-    {
-        // Здесь вы можете отобразить инвентарь игрока, его текущее здоровье, атаку, золото и другие параметры.
-        Console.WriteLine("Инвентарь игрока:");
-    }
 }

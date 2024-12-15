@@ -1,6 +1,6 @@
 ﻿namespace RPG_Game_Base;
 
-internal class Player : GeneralCharacter 
+public class Player : GeneralCharacter 
 {
     public int AmountOfExperience { get; set; }
     public int Level { get; set; }
