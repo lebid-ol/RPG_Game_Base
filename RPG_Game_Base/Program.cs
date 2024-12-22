@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 using System.Threading;
 
@@ -6,6 +7,7 @@ namespace RPG_Game_Base;
 
 public static class Program
 {
+    public static List<Monsters> listOfRemovedMonsters = new List<Monsters>();
     static void Main()
     {
         Console.OutputEncoding = Encoding.UTF8;
@@ -22,11 +24,15 @@ public static class Program
         }
 
         // Создаем игрока
-        Player player = new Player(nameOfHero, 100, 10, 0, 0, 20, 1);
+        Player player = new Player(nameOfHero, 100, 15, 40, 5, 0, 1);
+
+        //инвентарь игрока
+        Item sword = new Item("Меч", cost: 0, "Оружие", damage: 15); // Меч с уроном 15
+                
+
+    int level = 1;
 
         List <Monsters> upgradeMonsters = Monsters.UpgradeMonster(player);
-
-
 
         while (true)
         {
@@ -44,17 +50,21 @@ public static class Program
                 case "1":
                     // Начать бой с монстром
                     List<Monsters> selectedMonsters = Monsters.GetRandomMonster(upgradeMonsters);
-                    Monsters chosenMonster = Battle.ChooseMonsterForBattle(selectedMonsters);
+                    Monsters chosenMonster = Battle.ChooseMonsterForBattle(player,selectedMonsters);
                     Battle.FightMonster(player, chosenMonster);
                     Monsters.RemoveMonster(upgradeMonsters, chosenMonster.CharacterId);
+                    Levels.NextLevel(player, upgradeMonsters, listOfRemovedMonsters);
                     break;
                 case "2":
                     // Поход в магазин
-                    VisitShop(player);
+                    Console.WriteLine("Выберите инвентарь для покупки:");
+                    Shop.BuyItem(player);
                     break;
                 case "3":
                     // Отобразить инвентарь игрока
-                    DisplayInventory(player);
+                    Console.WriteLine("Информация об инвентаре:");
+                    sword.DisplayInventory();
+                    Console.WriteLine();
                     break;
                 case "4":
                     // Выход из игры
@@ -68,15 +78,4 @@ public static class Program
         }
     }
 
-    static void VisitShop(Player player)
-    {
-        // Здесь вы можете реализовать магазин, где игрок может покупать предметы, оружие и броню.
-        Console.WriteLine("Добро пожаловать в магазин!");
-    }
-
-    static void DisplayInventory(Player player)
-    {
-        // Здесь вы можете отобразить инвентарь игрока, его текущее здоровье, атаку, золото и другие параметры.
-        Console.WriteLine("Инвентарь игрока:");
-    }
 }

@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace RPG_Game_Base
 {
-    internal class Monsters : GeneralCharacter
+    public class Monsters : GeneralCharacter
     {
 
-        internal Monsters(string name, int health, int attack, int gold, int experience) : base (name, health, attack,  gold,  experience)
+        public Monsters(string name, int health, int attack, int gold, int experience) : base (name, health, attack,  gold,  experience)
         {
            
         
@@ -47,8 +47,8 @@ namespace RPG_Game_Base
             foreach (string monster in monsters)
             {
                 int health = random.Next(player.Health/2, player.Health + 20);
-                int attack = random.Next(player.Attack/2, player.Attack + 5);
-                int gold = random.Next(5, 20);
+                int attack = random.Next(player.Attack/2, player.Attack + 15);
+                int gold = random.Next(40, 150);
                 int experience = random.Next(10, 30);
                 Monsters newMonster = new Monsters(monster, health, attack, gold, experience);
                 upgradeMonsters.Add(newMonster);
@@ -92,18 +92,23 @@ namespace RPG_Game_Base
 
         }
 
-        public static void RemoveMonster(List<Monsters> upgradeMonsters, Guid chosenMonster)
+        public static (List<Monsters> updatedMonsters, List<Monsters> removedMonsters) RemoveMonster(List<Monsters> upgradeMonsters, Guid chosenMonster)
         {
+
             var monsterToRemove = upgradeMonsters.FirstOrDefault(upgradeMonsters => upgradeMonsters.CharacterId == chosenMonster);
             
             if (monsterToRemove != null)
             {
                upgradeMonsters.Remove(monsterToRemove);
+               Program.listOfRemovedMonsters.Add(monsterToRemove);
+
             }
             else
             {
                 Console.WriteLine("Монстр не найден.");
             }
+
+            return (upgradeMonsters, Program.listOfRemovedMonsters);
 
         }
 

@@ -9,9 +9,15 @@ namespace RPG_Game_Base
 {
     internal class Battle
     {
+        internal int level = 0;
 
-        public static Monsters ChooseMonsterForBattle(List<Monsters> selectedMonsters)
+        public static Monsters ChooseMonsterForBattle(Player player, List<Monsters> selectedMonsters)
         {
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("Ваши характеристики перед началом боя: ");
+            Console.WriteLine($"Здоровье: {player.Health}, Атака : {player.Attack}, Золото : {player.Gold}, Броня : {player.Armor}, Опыт : {player.Experience},  Текущий уровень : {player.Level}");
+            Console.ResetColor();
+            Console.WriteLine();
 
             Console.WriteLine("Выберите из списка монстра, с которым желаете сразиться: ");
 
@@ -56,13 +62,14 @@ namespace RPG_Game_Base
                     Console.WriteLine($"{chosenMonster.Name} побежден! Вы получаете {chosenMonster.Gold} золота и {chosenMonster.Experience} опыта.");
                     player.Gold += chosenMonster.Gold;
                     player.Experience += chosenMonster.Experience;
+                    
                     Thread.Sleep(6000);
                     break;
                 }
 
                 // Атака монстра
                 Console.WriteLine($"{chosenMonster.Name} атакует и наносит {chosenMonster.Attack} урона {player.Name}.");
-                player.Health -= chosenMonster.Attack;
+                player.Health -= chosenMonster.Attack + player.Armor;
                 Thread.Sleep(1000);
 
                 if (player.Health <= 0)
