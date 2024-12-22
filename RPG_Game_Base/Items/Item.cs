@@ -24,18 +24,23 @@ public class Item
         public void DisplayInventory()
         {
         Console.ForegroundColor = ConsoleColor.Green; 
-        Console.WriteLine($"Название: {Name}, Цена: {Cost}, Тип: {Type}");
+        Console.Write($"Название: {Name}, Тип: {Type}, ");
+        if (Cost > 0)
+        {
+            Console.Write($"Цена: {Cost}, ");
+        }
+
         if (Damage > 0)
         {
-            Console.WriteLine($"Урон: {Damage}");
+            Console.Write($"Урон: {Damage} ");
         }
         if (Armor > 0)
         {
-            Console.WriteLine($"Защита: {Armor}");
+            Console.Write($"Защита: {Armor} ");
         }
         if (HealthRestore > 0)
         {
-            Console.WriteLine($"Восстановление здоровья: {HealthRestore}");
+            Console.Write($"Восстановление здоровья: {HealthRestore}");
         }
         Console.ResetColor();
     }

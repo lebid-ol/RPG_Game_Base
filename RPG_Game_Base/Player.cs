@@ -2,18 +2,13 @@
 
 public class Player : GeneralCharacter 
 {
-    public int AmountOfExperience { get; set; }
     public int Level { get; set; }
+    public int Armor { get; set; }
 
-    public Player (string name, int health, int attack, int gold, int experience, int amountOfExperience, int level) : base (name, health, attack, gold, experience)
+    public Player (string name, int health, int attack, int gold, int armor, int experience, int level) : base (name, health, attack, gold, experience)
     {
-        AmountOfExperience = amountOfExperience;
         Level = level;
+        Armor = armor;
 
-    }
-
-    public void UseItem()
-    {
-        
     }
 }

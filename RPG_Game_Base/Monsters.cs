@@ -47,8 +47,8 @@ namespace RPG_Game_Base
             foreach (string monster in monsters)
             {
                 int health = random.Next(player.Health/2, player.Health + 20);
-                int attack = random.Next(player.Attack/2, player.Attack + 5);
-                int gold = random.Next(5, 20);
+                int attack = random.Next(player.Attack/2, player.Attack + 15);
+                int gold = random.Next(40, 150);
                 int experience = random.Next(10, 30);
                 Monsters newMonster = new Monsters(monster, health, attack, gold, experience);
                 upgradeMonsters.Add(newMonster);
